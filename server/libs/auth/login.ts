@@ -6,9 +6,9 @@ import bcrypt from "bcrypt";
 import { jwtSign } from "../../utlis/generateSeceretKeys";
 
 /**
- * 
- * @param {TobjSignupParams}  
- * @returns 
+ *
+ * @param {TobjSignupParams}
+ * @returns
  */
 export async function userLogin({
   objreqBody,
@@ -28,15 +28,13 @@ export async function userLogin({
       projection: {
         strUserEmail: 1,
         strPassWord: 1,
-        strAccPublicKey: 1,
         strAccPrivateKey: 1,
-        strRefrPublicKey: 1,
         strRefrPrivateKey: 1,
+        strName: 1,
       },
     };
 
     const objUserDetails = await collection.findOne(objFilter, objProjection);
-    console.log(objUserDetails);
     if (!objUserDetails)
       throw { strErrMessage: "USER_DOESN'T_EXIST", objData: objreqBody };
 
@@ -63,17 +61,19 @@ export async function userLogin({
     const strRefrToken = jwtSign({
       objPayload,
       strType: "REFRESH",
-      strPrivateKey: objUserDetails["strAccPrivateKey"],
+      strPrivateKey: objUserDetails["strRefrPrivateKey"],
     });
     //create jwt and send success message
     return {
       strMessage: "LOGIN_SUCCESS",
-      ...objUserDetails,
+      strUserEmail: objUserDetails["strUserEmail"],
+      strId: objUserDetails["_id"],
+      strName:objUserDetails["strName"],
       strAccToken,
       strRefrToken,
     };
   } catch (err) {
-    throw err;
+    throw new Error(err);
   } finally {
     client.close(true);
   }

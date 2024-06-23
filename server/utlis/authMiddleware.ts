@@ -9,8 +9,7 @@ export const verifyAccessToken = async (req, res, next) => {
     const strAcctoken: string = req.get("x-access-token");
 
     const strToken =
-      strAcctoken.startsWith("Bearer") && strAcctoken?.split(" ")?.[1]?.trim();
-    console.log({ strToken });
+      strAcctoken?.startsWith("Bearer") && strAcctoken?.split(" ")?.[1]?.trim();
     if (!strToken)
       throw { statusCode: 401, message: "NO_TOKEN_NO_AUTHORISATION" };
 
@@ -24,18 +23,15 @@ export const verifyAccessToken = async (req, res, next) => {
       { projection: { strAccPublicKey: 1 } }
     );
     await client.close(true);
-    console.log(strAccPublicKey, "============");
 
     //verifing access_token
     const objDecode = jwtVerify({ strToken, strPublicKey: strAccPublicKey });
     if (!objDecode) throw new Error("REVOKED_TOKEN_PROVIDED");
-    console.log(objDecode);
     req.body.strId = objDecode?.strId;
     next();
   } catch (err) {
     if(err?.name === "TokenExpiredError")
       err = 'REVOKED_TOKEN_PROVIDED'
-    console.log(JSON.stringify(err));
     
     next(err);
   }

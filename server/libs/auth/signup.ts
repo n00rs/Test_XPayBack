@@ -16,15 +16,13 @@ export async function createUser({
 
   try {
     const collection = db.collection(USERCOLLECTION);
-    console.log(objreqBody);
     // destructuring user data
-    const { strPassWord, strPhone, strUserEmail } = objreqBody;
+    const { strPassWord, strName, strUserEmail } = objreqBody;
     // basic vaildation
-    if (!strPassWord || !strPhone || !strUserEmail)
+    if (!strPassWord || !strName || !strUserEmail)
       throw { strErrMessage: "MISSING_REQUIRED_DATA", objData: objreqBody };
     //checking whether the email exist
     const arrExistUser = await collection.find({ strUserEmail }).toArray();
-    console.log(arrExistUser);
     //if mail id exists throw exception
     if (arrExistUser.length)
       throw { strErrMessage: "MAIL_ALREADY_EXIST_SYSTEM", objData: objreqBody };
@@ -34,24 +32,22 @@ export async function createUser({
     //setting data to save in data base
     const objSaveUser: TobjUser = {
       strPassWord: strHashedPass,
-      strPhone,
+      strName,
       strUserEmail,
     };
 
     const objAccKey = await generatePublicPrivateKey();
     const objRefrKey = await generatePublicPrivateKey();
-    
+
     objSaveUser["strAccPrivateKey"] = objAccKey["strPrivateKey"];
     objSaveUser["strAccPublicKey"] = objAccKey["strPublicKey"];
     objSaveUser["strRefrPrivateKey"] = objRefrKey["strPrivateKey"];
     objSaveUser["strRefrPublicKey"] = objRefrKey["strPublicKey"];
 
-    console.log(objSaveUser);
 
     //inserting data in database
     const objInsert = await collection.insertOne(objSaveUser);
 
-    console.log(objInsert);
     // if data insertion is failed throw exception
     if (!objInsert["acknowledged"])
       throw { strErrMessage: "ERROR_WHILE_SAVING_USER", objData: objreqBody };
@@ -59,7 +55,7 @@ export async function createUser({
     delete objSaveUser["strPassWord"];
     return { strMessage: "USER_CREATED_SUCCESSFULLY", ...objSaveUser };
   } catch (error) {
-    throw error;
+    throw new Error(error);
   } finally {
     client.close(true);
   }

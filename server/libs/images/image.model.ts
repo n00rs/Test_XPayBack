@@ -1,6 +1,6 @@
 export type TobjimageSize = {
-  strHeight: number;
-  strWidth: number;
+  intHeight: number;
+  intWidth: number;
 };
 
 export type TobjSaveImageParams = {

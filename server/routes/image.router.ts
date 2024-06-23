@@ -5,12 +5,9 @@ import { getImages } from "../libs/images";
 const router: Router = Router();
 router.post("/save_image", async (req, res, next) => {
   try {
-    console.log(req.body);
     const objReturnData = await saveImage({ objreqBody: req.body });
-    console.log(objReturnData);
     res.json({ body: objReturnData });
   } catch (err) {
-    console.log(err);
     // throw err;
     next(err);
   }
@@ -23,6 +20,5 @@ router.post("/get_image", async (req, res, next) => {
     next(err);
   }
 });
-router.post("/get_image_thumbnail");
 
 export default router;

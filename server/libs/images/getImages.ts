@@ -23,13 +23,11 @@ export async function getImages({
       });
     const objOptions: FindOptions = {
       projection: {
-        arrImg: { $elemMatch: { strImageName } },
+        arrImg: strImageName ? { $elemMatch: { strImageName } } :1,
       },
     };
-    console.log(objFilterQuery);
 
     const objUserImages = await collection.findOne(objFilterQuery, objOptions);
-    console.log(objUserImages);
     return objUserImages;
   } catch (err) {
     throw new Error(err);

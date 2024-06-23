@@ -8,7 +8,7 @@ export type TobjUser = {
   _id?: ObjectId;
   strUserEmail: string;
   strPassWord: string;
-  strPhone: string;
+  strName: string;
   strAccPublicKey?: string;
   strAccPrivateKey?: string;
   strRefrPublicKey?: string;
@@ -18,7 +18,7 @@ export type TobjUser = {
 export type TobjReturnSignup = {
   strMessage: string;
   strUserEmail: string;
-  strPhone: string;
+  strName: string;
 };
 
 export type TcreateUser = (

@@ -19,9 +19,9 @@ export default async function generateThumbnails({
       "base64"
     );
     const arrThumBuffer: string[] = [];
-    for (const { strHeight, strWidth } of arrThumbSize) {
+    for (const { intHeight, intWidth } of arrThumbSize) {
       const bufResizedBuffer = await sharp(imgBuffer)
-        .resize(strWidth, strHeight)
+        .resize(Number(intWidth), Number(intHeight))
         .toBuffer();
       arrThumBuffer.push(bufResizedBuffer.toString("base64"));
       //   writeFileSync('img.jpg',bufResizedBuffer)

@@ -3,7 +3,7 @@ import generateThumbnails from "../../utlis/genrateThumbnails";
 import createMongoConnect from "../../utlis/mongoConfig";
 import { USERCOLLECTION } from "../constants/collectionName";
 import { TobjSaveImageParams } from "./image.model";
-const arrObjDefaultThumb = [{ strHeight: 200, strWidth: 200 }];
+const arrObjDefaultThumb = [{ intHeight: 200, intWidth: 200 }];
 
 export async function saveImage({
   objreqBody,
@@ -14,7 +14,6 @@ export async function saveImage({
     let { strId, strImageName, arrThumbSize, strBase64 } = objreqBody;
     if (!arrThumbSize.length) arrThumbSize = arrObjDefaultThumb;
 
-    console.log({ strId, strImageName, arrThumbSize, strBase64 });
     // todo do basic validations
     const arrThumbBuff = await generateThumbnails({
       strBase64: strBase64,
@@ -36,7 +35,10 @@ export async function saveImage({
 
     return {
       strMessage: "IMAGE_ADDED_SUCCESS_FULLY",
-      ...objUpdatedData,
+      _id: objUpdatedData["_id"],
+      strName: objUpdatedData["strName"],
+      strUserEmail: objUpdatedData["strUserEmail"],
+      arrImg: objUpdatedData["arrImg"],
     };
   } catch (error) {
     throw error;
