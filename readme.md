@@ -34,7 +34,12 @@ This project consists of a server and client setup. To run the server and client
     npm start
     ```
 
-   The server will start and listen on the port specified in the `.env` file (default: 4000).
+    The server will start and listen on the port specified in the `.env` file (default: 4000).
+
+5. **Build the server**:
+    ```bash
+    npm run build
+    ```
 
 ## Client Setup
 
@@ -53,7 +58,12 @@ This project consists of a server and client setup. To run the server and client
     npm start
     ```
 
-   The client will start and run on `http://localhost:3000`.
+    The client will start and run on `http://localhost:3000`.
+
+4. **Build the client**:
+    ```bash
+    npm run build
+    ```
 
 ## Summary
 
@@ -63,6 +73,7 @@ This project consists of a server and client setup. To run the server and client
     - `cd server`
     - `npm install`
     - `npm start`
+    - `npm run build`
   - Environment variables:
     ```env
     PORT = 4000
@@ -78,5 +89,6 @@ This project consists of a server and client setup. To run the server and client
     - `cd client`
     - `npm install`
     - `npm start`
+    - `npm run build`
 
-By following the above steps, you will have both the server and client running on your local machine.
+By following the above steps, you will have both the server and client running on your local machine and ready for production builds.
