@@ -45,7 +45,6 @@ export const jwtSign = ({
       ? process.env.ACCESS_EXP_TIME
       : process.env.REFRESH_EXP_TIME;
   //creating  token
-  console.log(strPrivateKey);
 
   return jwt.sign(objPayload, strPrivateKey, {
     // expiresIn:  "12h",
